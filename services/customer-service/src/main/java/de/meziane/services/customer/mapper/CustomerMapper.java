@@ -12,17 +12,15 @@ import java.util.List;
 public final class CustomerMapper {
 
     public static CustomerResponse toResponse(Customer customer) {
-        List<CustomerContactResponse> contacts = customer.getContacts()
-                .stream()
-                .map(CustomerMapper::toContactResponse)
-                .toList();
         return new CustomerResponse(
                 customer.getId(),
                 customer.getGivenName(),
                 customer.getFamilyName(),
                 customer.getDob(),
                 customer.getGender(),
-                contacts
+                customer.getContacts().stream()
+                        .map(CustomerMapper::toContactResponse)
+                        .toList()
         );
     }
     public static Customer toCustomer(CustomerRequest custRequest){

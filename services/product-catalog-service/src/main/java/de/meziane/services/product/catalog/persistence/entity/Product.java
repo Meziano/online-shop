@@ -1,5 +1,6 @@
 package de.meziane.services.product.catalog.persistence.entity;
 
+import de.meziane.common.model.OrderStatus;
 import de.meziane.common.model.ProductType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,6 +21,7 @@ public class Product {
     @ToString.Include
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "product_type", nullable = false)
     @ToString.Include
     private ProductType productType ;
