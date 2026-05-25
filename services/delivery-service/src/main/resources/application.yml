@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: delivery-service
+
+  docker:
+    compose:
+      file: ../../compose.yaml
+      lifecycle-management: start-only
+
+  datasource:
+    url: jdbc:postgresql://localhost:5439/deliverydb
+    username: shop
+    password: shop
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_schema: delivery
+    open-in-view: false
+
+  kafka:
+    bootstrap-servers: localhost:9092

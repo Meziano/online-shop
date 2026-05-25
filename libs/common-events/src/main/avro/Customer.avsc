@@ -1,0 +1,44 @@
+{
+  "namespace": "de.meziane.common.events.customer",
+  "type": "record",
+  "name": "Customer",
+  "doc": "Customer data published by customer-service",
+  "fields": [
+    {
+      "name": "id",
+      "type": "int",
+      "doc": "Technical customer identifier"
+    },
+    {
+      "name": "givenName",
+      "type": "string",
+      "doc": "Customer given name"
+    },
+    {
+      "name": "firstName",
+      "type": "string",
+      "doc": "Customer first or family name"
+    },
+    {
+      "name": "dob",
+      "type": ["null", { "type": "int", "logicalType": "date" }],
+      "default": null,
+      "doc": "Optional date of birth"
+    },
+    {
+      "name": "gender",
+      "type": "de.meziane.common.events.customer.Gender",
+      "default": "UNKNOWN",
+      "doc": "Gender with UNKNOWN as fallback"
+    },
+    {
+      "name": "contacts",
+      "type": {
+        "type": "array",
+        "items": "de.meziane.common.events.customer.Contact"
+      },
+      "default": [],
+      "doc": "List of customer contact entries"
+    }
+  ]
+}

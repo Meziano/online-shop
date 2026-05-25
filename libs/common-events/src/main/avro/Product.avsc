@@ -1,0 +1,16 @@
+{
+  "type": "record",
+  "name": "Product",
+  "namespace": "de.meziane.common.events.catalog",
+  "fields": [
+    { "name": "id", "type": "long" },
+    { "name": "sku", "type": "string" },
+    { "name": "title", "type": "string" },
+    { "name": "description", "type": ["null", "string"], "default": null },
+    { "name": "productType", "type": "de.meziane.common.events.catalog.ProductType" },
+    { "name": "categoryId", "type": "long" },
+    { "name": "price", "type": "double" },
+    { "name": "currency", "type": "string" },
+    { "name": "active", "type": "boolean", "default": true }
+  ]
+}

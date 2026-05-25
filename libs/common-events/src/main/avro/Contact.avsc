@@ -1,0 +1,18 @@
+{
+  "namespace": "de.meziane.common.events.customer",
+  "type": "record",
+  "name": "Contact",
+  "doc": "A single customer contact entry",
+  "fields": [
+    {
+      "name": "category",
+      "type": "de.meziane.common.events.customer.ContactCategory",
+      "doc": "Contact type"
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "doc": "Contact value such as email address, phone number, or postal address"
+    }
+  ]
+}

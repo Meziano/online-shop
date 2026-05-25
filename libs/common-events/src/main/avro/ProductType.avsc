@@ -1,0 +1,6 @@
+{
+  "type": "enum",
+  "name": "ProductType",
+  "namespace": "de.meziane.common.events.catalog",
+  "symbols": ["BOOK", "EBOOK", "CD"]
+}

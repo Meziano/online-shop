@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: customer-service
+
+  docker:
+    compose:
+      file: ../../compose.yaml
+      lifecycle-management: start-only
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/customerdb
+    username: shop
+    password: shop
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+        hbm2ddl:
+          delimiter: ;
+      jakarta:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: create
+              create-target: ./build/generated-ddl/customerdb-create.sql
+
+
+  kafka:
+    bootstrap-servers: localhost:9092

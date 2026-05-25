@@ -1,0 +1,11 @@
+{
+  "namespace": "de.meziane.common.events.customer",
+  "type": "enum",
+  "name": "ContactCategory",
+  "symbols": [
+    "ADDRESS",
+    "PHONE",
+    "EMAIL"
+  ],
+  "doc": "Type of customer contact information"
+}

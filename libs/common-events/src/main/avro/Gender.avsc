@@ -1,0 +1,11 @@
+{
+  "namespace": "de.meziane.common.events.customer",
+  "type": "enum",
+  "name": "Gender",
+  "symbols": [
+    "MALE",
+    "FEMALE",
+    "UNKNOWN"
+  ],
+  "doc": "Optional gender value as provided by the customer"
+}
