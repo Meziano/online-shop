@@ -8,17 +8,26 @@ spring:
       lifecycle-management: start-only
 
   datasource:
-    url: jdbc:postgresql://localhost:5436/orderdb
+    url: jdbc:postgresql://localhost:5435/orderdb
     username: shop
     password: shop
 
   jpa:
+    show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
-        default_schema: ordering
-    open-in-view: false
+        format_sql: true
+        hbm2ddl:
+          delimiter: ;
+      jakarta:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: create
+              create-target: ./build/generated-ddl/orderdb-create.sql
 
   kafka:
     bootstrap-servers: localhost:9092

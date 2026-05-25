@@ -1,0 +1,11 @@
+{
+  "type": "enum",
+  "name": "OrderStatus",
+  "namespace": "de.meziane.common.events.order",
+  "symbols": [
+    "CREATED",
+    "CONFIRMED",
+    "PAID",
+    "CANCELLED"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "record",
+  "name": "Order",
+  "namespace": "de.meziane.common.events.order",
+  "fields": [
+    { "name": "orderId", "type": "string" },
+    { "name": "customerId", "type": "long" },
+    { "name": "status", "type": "string" },
+    { "name": "createdAt",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "items",
+      "type": {
+        "type": "array",
+        "items": "de.meziane.common.events.order.OrderItem"
+      }
+    },
+    { "name": "totalAmount", "type": "double" },
+    { "name": "currency", "type": "string" }
+]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "record",
+  "name": "OrderItem",
+  "namespace": "de.meziane.common.events.order",
+  "fields": [
+    { "name": "productId", "type": "long" },
+    { "name": "sku", "type": "string" },
+    { "name": "title", "type": "string" },
+    { "name": "quantity", "type": "int" },
+    { "name": "unitPrice", "type": "double" },
+    { "name": "currency", "type": "string" }
+  ]
+}
