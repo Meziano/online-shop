@@ -12,6 +12,10 @@ import java.util.List;
 public final class CustomerMapper {
 
     public static CustomerResponse toResponse(Customer customer) {
+
+        if (customer == null) {
+            return null;
+        }
         return new CustomerResponse(
                 customer.getId(),
                 customer.getGivenName(),
