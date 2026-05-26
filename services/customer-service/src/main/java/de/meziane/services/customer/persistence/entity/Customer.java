@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "customers")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(onlyExplicitlyIncluded = true)
 public class Customer {

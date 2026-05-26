@@ -41,14 +41,14 @@ public final class CustomerMapper {
         return customer;
     }
 
-    private static CustomerContact toContactEntity(CustomerContactRequest request) {
+    public static CustomerContact toContactEntity(CustomerContactRequest request) {
         return new CustomerContact(
                 request.category(),
                 request.value()
         );
     }
 
-    private static CustomerContactResponse toContactResponse(CustomerContact contact) {
+    public static CustomerContactResponse toContactResponse(CustomerContact contact) {
         return new CustomerContactResponse(
                 contact.getCategory(),
                 contact.getValue()
