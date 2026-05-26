@@ -15,9 +15,9 @@
       "doc": "Customer given name"
     },
     {
-      "name": "firstName",
+      "name": "familyName",
       "type": "string",
-      "doc": "Customer first or family name"
+      "doc": "Customer family name"
     },
     {
       "name": "dob",
