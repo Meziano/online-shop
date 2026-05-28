@@ -15,7 +15,6 @@ import java.math.BigDecimal;
         )
 })
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(onlyExplicitlyIncluded = true)
 public class OrderItem {
