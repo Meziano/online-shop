@@ -90,31 +90,38 @@ public class CustomerServiceTest {
     @Test
     void shouldUpdateCustomer() throws Exception {
         Long id = 1L;
-
         Customer existingCustomer = generateCustomer();
-        List<CustomerContactRequest> contacts =
-                existingCustomer.getContacts()
-                        .stream()
-                        .map(c-> new CustomerContactRequest(c.getCategory(), c.getValue()))
-                        .toList();
-        CustomerRequest request = new CustomerRequest(
-                "Anna",
-                "Musterfrau",
-                existingCustomer.getDob(),
-                existingCustomer.getGender(), contacts);
-
         when(customerRepository.findById(id)).thenReturn(Optional.of(existingCustomer));
         when(customerRepository.save(any(Customer.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        customerService.updateCustomer(id, request);
+        List<CustomerContactRequest> contacts = existingCustomer.getContacts()
+                .stream()
+                .map(c -> new CustomerContactRequest(c.getCategory(), c.getValue()))
+                .toList();
+
+        CustomerRequest request = new CustomerRequest(
+                "Anna",
+                "Musterfrau",
+                existingCustomer.getDob(),
+                existingCustomer.getGender(),
+                contacts
+        );
+
+
+        CustomerResponse response = customerService.updateCustomer(id, request);
+
+        assertEquals("Anna", response.givenName());
+        assertEquals("Musterfrau", response.familyName());
 
         ArgumentCaptor<Customer> captor = ArgumentCaptor.forClass(Customer.class);
+        verify(customerRepository).findById(id);
         verify(customerRepository).save(captor.capture());
 
         Customer savedCustomer = captor.getValue();
         assertEquals("Anna", savedCustomer.getGivenName());
         assertEquals("Musterfrau", savedCustomer.getFamilyName());
+
     }
 
     @Test
@@ -154,7 +161,6 @@ public class CustomerServiceTest {
                 LocalDate.of(1990, 1, 1),
                 CustomerGender.MALE);
         customer.addContact(new CustomerContact(ContactCategory.EMAIL, "max.Mustermann@test.com"));
-//        customer.addContact(new CustomerContact(ContactCategory.PHONE, "+491764124612"));
         return customer;
     }
 
