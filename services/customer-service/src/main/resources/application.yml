@@ -12,24 +12,17 @@ spring:
     username: shop
     password: shop
 
+  flyway:
+    enabled: true
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
-#        dialect: org.hibernate.dialect.PostgreSQLDialect
         hbm2ddl:
           delimiter: ;
-      jakarta:
-        persistence:
-          schema-generation:
-            create-source: metadata
-            scripts:
-              action: create
-              create-target: ./build/generated-ddl/customerdb-create.sql
-
 
   kafka:
     bootstrap-servers: localhost:9092

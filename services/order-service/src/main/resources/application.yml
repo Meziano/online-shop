@@ -12,22 +12,18 @@ spring:
     username: shop
     password: shop
 
+  flyway:
+    enabled: true
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: 'create-drop'  #validate
     properties:
       hibernate:
         format_sql: true
         hbm2ddl:
           delimiter: ;
-      jakarta:
-        persistence:
-          schema-generation:
-            create-source: metadata
-            scripts:
-              action: create
-              create-target: ./build/generated-ddl/orderdb-create.sql
+
 
   kafka:
     bootstrap-servers: localhost:9092

@@ -11,14 +11,16 @@ spring:
 #    url: jdbc:postgresql://localhost:5435/cartdb
 #    username: shop
 #    password: shop
-#
+#  flyway:
+#    enabled: true
 #  jpa:
 #    hibernate:
-#      ddl-auto: update
+#      ddl-auto: validate
 #    properties:
 #      hibernate:
-#        default_schema: cart
-#    open-in-view: false
+#        format_sql: true
+#        hbm2ddl:
+#          delimiter: ;
 
   kafka:
     bootstrap-servers: localhost:9092
