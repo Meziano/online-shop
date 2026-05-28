@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(onlyExplicitlyIncluded = true)
 public class Order {

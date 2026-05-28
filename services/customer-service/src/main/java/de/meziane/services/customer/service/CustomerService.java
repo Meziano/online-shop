@@ -8,10 +8,12 @@ import de.meziane.services.customer.persistence.entity.CustomerContact;
 import de.meziane.services.customer.persistence.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,13 +38,15 @@ public class CustomerService {
         Customer existingCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
 
-        existingCustomer.setGivenName(customerRequest.givenName());
-        existingCustomer.setFamilyName(customerRequest.familyName());
-        existingCustomer.setDob(customerRequest.dob());
-        existingCustomer.setGender(customerRequest.gender());        ;
-        existingCustomer.setContacts(customerRequest.contacts().stream()
+        existingCustomer.changeGivenName(customerRequest.givenName());
+        existingCustomer.changeFamilyName(customerRequest.familyName());
+        existingCustomer.changeDob(customerRequest.dob());
+        existingCustomer.changeGender(customerRequest.gender());        ;
+        List<CustomerContact> oldContacts = new ArrayList<>(existingCustomer.getContacts());
+        oldContacts.forEach(existingCustomer::removeContact);
+        customerRequest.contacts().stream()
                 .map(CustomerMapper::toContactEntity)
-                .toList());
+                .forEach(existingCustomer::addContact);
         Customer saved = customerRepository.save(existingCustomer);
         return CustomerMapper.toResponse(saved);
     }
