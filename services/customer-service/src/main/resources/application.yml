@@ -6,6 +6,9 @@ spring:
     compose:
       file: ../../compose.yaml
       lifecycle-management: start-only
+      profiles:
+        active: customer
+
 
   datasource:
     url: jdbc:postgresql://localhost:5433/customerdb

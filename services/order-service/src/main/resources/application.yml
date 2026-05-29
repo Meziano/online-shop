@@ -6,6 +6,8 @@ spring:
     compose:
       file: ../../compose.yaml
       lifecycle-management: start-only
+      profiles:
+        active: order
 
   datasource:
     url: jdbc:postgresql://localhost:5435/orderdb
