@@ -3,7 +3,6 @@ create table orders (
     order_id varchar(100) not null unique,
     customer_id bigint not null,
     status varchar(30) not null check (status in ('CANCELLED','CONFIRMED','CREATED','PAID')),
-    created_at timestamp(6) with time zone not null,
     total_amount numeric(12,2) not null,
     currency varchar(3) not null,
     constraint pk_orders primary key (id)
@@ -17,7 +16,6 @@ create table order_items (
     title varchar(250) not null,
     quantity integer not null,
     unit_price numeric(12,2) not null,
-    currency varchar(3) not null,
     constraint pk_order_items primary key (id),
     constraint uk_order_items_order_sku unique (order_id, sku),
     constraint fk_order_items_order

@@ -15,11 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(onlyExplicitlyIncluded = true)
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ToString.Include
-    private Long id;
+public class Order extends BaseEntity {
 
     @Column(name = "order_id", nullable = false, unique = true, length = 100)
     @ToString.Include
@@ -33,9 +29,6 @@ public class Order {
     @Column(name = "status", nullable = false, length = 30)
     private OrderStatus status;
 
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
     @Column(name = "total_amount", nullable = false, precision = 12, scale = 2)
     @ToString.Include
     private BigDecimal totalAmount;
@@ -47,24 +40,92 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
 
-    public void addItem(OrderItem item) {
-        items.add(item);
-        item.setOrder(this);
-    }
+    public Order(String orderId, Long customerId, String currency) {
+        if (orderId == null || orderId.isBlank()) {
+            throw new IllegalArgumentException("orderId darf nicht leer sein");
+        }
+        if (customerId == null) {
+            throw new IllegalArgumentException("customerId darf nicht null sein");
+        }
+        if (currency == null || currency.isBlank()) {
+            throw new IllegalArgumentException("currency darf nicht leer sein");
+        }
 
-    public Order(
-            String orderId,
-            Long customerId,
-            OrderStatus status,
-            Instant createdAt,
-            BigDecimal totalAmount,
-            String currency
-    ) {
         this.orderId = orderId;
         this.customerId = customerId;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.totalAmount = totalAmount;
         this.currency = currency;
+        this.status = OrderStatus.CREATED;
+        this.totalAmount = BigDecimal.ZERO;
+    }
+
+    public void addItem(Long productId, String sku, String title, int quantity, BigDecimal unitPrice) {
+        ensureEditable();
+
+        OrderItem item = new OrderItem(productId, sku, title, quantity, unitPrice);
+        item.assignTo(this);
+        items.add(item);
+        recalculateTotalAmount();
+    }
+
+    public void removeItem(Long orderItemId) {
+        ensureEditable();
+
+        boolean removed = items.removeIf(item -> item.getId().equals(orderItemId));
+        if (!removed) {
+            throw new IllegalArgumentException("OrderItem nicht gefunden");
+        }
+        recalculateTotalAmount();
+    }
+
+    public void changeItemQuantity(Long orderItemId, int quantity) {
+        ensureEditable();
+
+        OrderItem item = items.stream()
+                .filter(it -> it.getId().equals(orderItemId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("OrderItem nicht gefunden"));
+
+        item.changeQuantity(quantity);
+        recalculateTotalAmount();
+    }
+
+    public void pay() {
+        if (status != OrderStatus.CREATED) {
+            throw new IllegalStateException("Nur CREATED Orders koennen bezahlt werden");
+        }
+        if (items.isEmpty()) {
+            throw new IllegalStateException("Order muss mindestens ein Item enthalten");
+        }
+        this.status = OrderStatus.PAID;
+    }
+
+    public void confirm() {
+        if (status != OrderStatus.PAID) {
+            throw new IllegalStateException("Nur PAID Orders koennen bestaetigt werden");
+        }
+        this.status = OrderStatus.CONFIRMED;
+    }
+
+    public void cancel() {
+        if (status != OrderStatus.CREATED) {
+            throw new IllegalStateException("Nur CREATED Orders koennen storniert werden");
+        }
+        this.status = OrderStatus.CANCELLED;
+    }
+
+    public List<OrderItem> getItems() {
+        return List.copyOf(items);
+    }
+
+    private void ensureEditable() {
+        if (status != OrderStatus.CREATED) {
+            throw new IllegalStateException("Items duerfen nur im Status CREATED geaendert werden");
+        }
+    }
+
+    private void recalculateTotalAmount() {
+        this.totalAmount = items.stream()
+                .map(OrderItem::lineTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

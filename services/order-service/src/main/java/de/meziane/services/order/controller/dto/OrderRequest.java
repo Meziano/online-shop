@@ -9,9 +9,6 @@ import java.util.List;
 public record OrderRequest(
         String orderId,
         Long customerId,
-        OrderStatus status,
-        Instant createdAt,
-        BigDecimal totalAmount,
         String currency,
         List<OrderItemRequest> items
 ) {

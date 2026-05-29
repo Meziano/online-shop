@@ -7,8 +7,6 @@ public record OrderItemRequest(
         String sku,
         String title,
         int quantity,
-        BigDecimal unitPrice,
-        String currency,
-        OrderRequest orderRequest
+        BigDecimal unitPrice
 ) {
 }

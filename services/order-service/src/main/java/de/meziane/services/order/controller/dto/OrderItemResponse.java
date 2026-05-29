@@ -1,6 +1,5 @@
 package de.meziane.services.order.controller.dto;
 
-
 import java.math.BigDecimal;
 
 public record OrderItemResponse(
@@ -9,7 +8,7 @@ public record OrderItemResponse(
         String sku,
         String title,
         int quantity,
-        BigDecimal unitPrice,
-        String currency
+        BigDecimal unitPrice
+
 ) {
 }

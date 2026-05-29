@@ -16,6 +16,7 @@ public final class OrderMapper {
                 new OrderResponse(
                         order.getId(),
                         order.getOrderId(),
+                        order.getCustomerId(),
                         order.getStatus(),
                         order.getCreatedAt(),
                         order.getTotalAmount(),
@@ -27,17 +28,17 @@ public final class OrderMapper {
     }
 
     public static Order toOrder(OrderRequest orderRequest) {
-
         Order order = new Order(
                 orderRequest.orderId(),
                 orderRequest.customerId(),
-                orderRequest.status(),
-                orderRequest.createdAt(),
-                orderRequest.totalAmount(),
                 orderRequest.currency()
         );
         orderRequest.items().forEach(itemRequest ->
-                order.addItem(toOrderItem(itemRequest, order))
+                order.addItem(itemRequest.productId(),
+                        itemRequest.sku(),
+                        itemRequest.title(),
+                        itemRequest.quantity(),
+                        itemRequest.unitPrice())
         );
         return order;
     }
@@ -48,21 +49,16 @@ public final class OrderMapper {
                 orderItem.getSku(),
                 orderItem.getTitle(),
                 orderItem.getQuantity(),
-                orderItem.getUnitPrice(),
-                orderItem.getCurrency()
+                orderItem.getUnitPrice()
         );
     }
     private static OrderItem toOrderItem(OrderItemRequest orderItemRequest, Order order) {
         return new OrderItem(
-                order,
                 orderItemRequest.productId(),
                 orderItemRequest.sku(),
                 orderItemRequest.title(),
                 orderItemRequest.quantity(),
-                orderItemRequest.unitPrice(),
-                orderItemRequest.currency()
+                orderItemRequest.unitPrice()
         );
     }
-
-    
 }
