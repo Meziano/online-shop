@@ -16,6 +16,9 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+    volumes:
+      - kafka-online-shop:/var/lib/kafka/data
 
   schema-registry:
     image: confluentinc/cp-schema-registry:8.0.5
@@ -42,7 +45,7 @@ services:
       - "7777:8080"
     restart: always
     environment:
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-broker:29092
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
       KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
       KAFKA_CLUSTERS_0_NAME: kafka
 
@@ -57,6 +60,8 @@ services:
       POSTGRES_DB: customerdb
       POSTGRES_USER: shop
       POSTGRES_PASSWORD: shop
+    volumes:
+      - customerdb-data:/var/lib/postgresql/data
 
   productdb:
     profiles: ["product"]
@@ -68,6 +73,8 @@ services:
       POSTGRES_DB: productdb
       POSTGRES_USER: shop
       POSTGRES_PASSWORD: shop
+    volumes:
+      - productdb-data:/var/lib/postgresql/data
 
   orderdb:
     profiles: ["order"]
@@ -79,3 +86,13 @@ services:
       POSTGRES_DB: orderdb
       POSTGRES_USER: shop
       POSTGRES_PASSWORD: shop
+    volumes:
+      - orderdb-data:/var/lib/postgresql/data
+
+volumes:
+  customerdb-data:
+  orderdb-data:
+  productdb-data:
+  kafka-online-shop:
+    driver: local
+
